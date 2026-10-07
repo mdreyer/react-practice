@@ -36,7 +36,7 @@ function Playground() {
   const [current, setCurrent] = useState(names[0]!);
   return (
     <main style={{ fontFamily: 'system-ui, sans-serif', maxWidth: 720, margin: '2rem auto', padding: '0 1rem' }}>
-      <h1>Mojang prep playground</h1>
+      <h1>React Practice playground</h1>
       <nav aria-label="Problems" style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 24 }}>
         {names.map((name) => (
           <button key={name} type="button" aria-pressed={name === current} onClick={() => setCurrent(name)}>
