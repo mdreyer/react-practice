@@ -1,16 +1,16 @@
-# Mojang Prep: React + TypeScript practice
+# Interview Prep: React + TypeScript practice
 
-A practice repo for the **Software Engineer II, Minecraft Web** interviews. Each module adds a folder under `src/`.
+A practice repo for the Software Engineer II interviews. Each module adds a folder under `src/`.
 Each problem comes with a ticket-style spec (`README.md`), a starter file, and a test suite that tells you when you're done.
 
 ## Setup (about 5 minutes, one time)
 
 **Recommended: GitHub + StackBlitz** (nothing to install, and your work is saved):
 
-1. Create a new **public** GitHub repo, for example `mojang-prep`.
+1. Create a new **public** GitHub repo, for example `interview-prep`.
 2. On the repo page, click **Add file → Upload files**, drag in **everything inside this folder**
    (including `package.json` and `src/`), and commit.
-3. Open `https://stackblitz.com/github/<your-username>/mojang-prep`.
+3. Open `https://stackblitz.com/github/<your-username>/interview-prep`.
    StackBlitz installs the dependencies automatically. Click **Fork** so you can save your edits.
 4. In the StackBlitz terminal:
    ```bash
