@@ -1,8 +1,5 @@
 # Module 1 Quick-Fire (about 15 minutes, out loud)
 
-These are practice for the short question-and-answer part at the start of each interview. Answer each one **out loud in 30–60 seconds**
-before you open the answer. If you can't explain it simply, mark it and we'll come back to it.
-
 ---
 
 ## JavaScript and browser fundamentals
