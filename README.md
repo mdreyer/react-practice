@@ -1,6 +1,6 @@
-# Mojang Prep: React + TypeScript practice
+# React + TypeScript practice
 
-A practice repo for the **Software Engineer II, Minecraft Web** interviews. Each module adds a folder under `src/`.
+Each module adds a folder under `src/`.
 Each problem comes with a ticket-style spec (`README.md`), a starter file, and a test suite that tells you when you're done.
 
 ## Setup (about 5 minutes, one time)
