@@ -5,8 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "start": "vite",
     "test": "vitest",
     "test:m1": "vitest src/module-01-warmup",
+    "test:m2": "vitest src/module-02-hooks",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
