@@ -1,6 +1,6 @@
 // Playground: run `npm run dev` to try your components by hand in the browser preview.
 // You don't need to edit this file. The tests are the real feedback loop.
-import { StrictMode, useState, type ReactNode } from 'react';
+import { Component, StrictMode, useState, type ReactNode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BundlePicker } from './module-01-warmup/01-bundle-picker/BundlePicker';
 import { BUNDLES } from './module-01-warmup/01-bundle-picker/bundles.fixture';
@@ -13,6 +13,10 @@ import { SkinSearch } from './module-02-hooks/02-skin-search/SkinSearch';
 import { filterSkins } from './module-02-hooks/02-skin-search/skins.fixture';
 import { PurchaseButton } from './module-02-hooks/03-online-status/OnlineStatus';
 import { MinecoinBalance } from './module-02-hooks/04-bug-hunt-balance/MinecoinBalance';
+import { SelectableList } from './module-03-typescript/04-generic-list/SelectableList';
+import { CheckoutWizard } from './module-04-state/02-checkout-wizard/CheckoutWizard';
+import { CartProvider, useCart, useCartActions } from './module-04-state/03-cart-context/CartContext';
+import { MarketplaceFilters } from './module-04-state/04-url-state/MarketplaceFilters';
 
 const log = (label: string) => (value: unknown) => console.log(label, value);
 
@@ -68,6 +72,65 @@ function BalanceDemo() {
   );
 }
 
+function SelectableListDemo() {
+  const [selected, setSelected] = useState<string | null>(null);
+  return (
+    <SelectableList
+      label="Bundles"
+      items={BUNDLES}
+      getKey={(b) => b.id}
+      getLabel={(b) => b.name}
+      selectedKey={selected}
+      onSelect={(b) => setSelected(b.id)}
+    />
+  );
+}
+
+const fakeSubmitOrder = async () => {
+  await delay(1000);
+  if (Math.random() < 0.4) throw new Error('Card declined');
+  return { orderId: `o-${Math.floor(Math.random() * 10000)}` };
+};
+
+function CartDemo() {
+  function Controls() {
+    const { addItem, clear } = useCartActions();
+    return (
+      <p>
+        <button type="button" onClick={() => addItem({ sku: 'MC-1720', name: '1,720 Minecoins', priceCents: 999 })}>
+          Add coins
+        </button>{' '}
+        <button type="button" onClick={clear}>Clear</button>
+      </p>
+    );
+  }
+  function Summary() {
+    const { lines, itemCount, totalCents } = useCart();
+    return (
+      <p>
+        {itemCount} items, ${(totalCents / 100).toFixed(2)}: {lines.map((l) => `${l.name} × ${l.quantity}`).join(', ')}
+      </p>
+    );
+  }
+  return (
+    <CartProvider>
+      <Controls />
+      <Summary />
+    </CartProvider>
+  );
+}
+
+/** Keeps one unfinished problem (e.g. a starter that throws) from crashing the whole playground. */
+class ProblemBoundary extends Component<{ children: ReactNode }, { error: string | null }> {
+  state = { error: null as string | null };
+  static getDerivedStateFromError(error: Error) {
+    return { error: error.message };
+  }
+  render() {
+    return this.state.error ? <p role="alert">This problem threw an error: {this.state.error}</p> : this.props.children;
+  }
+}
+
 const PROBLEMS: Record<string, () => ReactNode> = {
   '1.1 Bundle picker': () => <BundlePicker bundles={BUNDLES} onPurchase={log('purchase')} />,
   '1.2 Profile settings': () => (
@@ -95,6 +158,10 @@ const PROBLEMS: Record<string, () => ReactNode> = {
     </>
   ),
   '2.4 Bug hunt: balance': () => <BalanceDemo />,
+  '3.4 Generic list': () => <SelectableListDemo />,
+  '4.2 Checkout wizard': () => <CheckoutWizard submitOrder={fakeSubmitOrder} />,
+  '4.3 Cart context': () => <CartDemo />,
+  '4.4 URL filters': () => <MarketplaceFilters />,
 };
 
 function Playground() {
@@ -111,7 +178,7 @@ function Playground() {
         ))}
       </nav>
       {/* key forces a fresh mount when switching problems */}
-      <div key={current}>{PROBLEMS[current]!()}</div>
+      <ProblemBoundary key={current}>{PROBLEMS[current]!()}</ProblemBoundary>
     </main>
   );
 }
